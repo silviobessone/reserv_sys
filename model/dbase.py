@@ -64,6 +64,6 @@ class Reservation(db.Entity):
     Totale_prov = orm.Required(int)
 
 
-db.bind(provider='sqlite', filename='demo_locanda_db.sqlite', create_db=True)
+db.bind(provider='sqlite', filename='database.sqlite', create_db=True)
 orm.sql_debug(True)
 db.generate_mapping(create_tables=True)
