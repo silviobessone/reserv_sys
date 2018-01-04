@@ -1,4 +1,5 @@
-from flask import Flask, render_template, make_response
+from flask import Flask, render_template, make_response, request
+import requests
 from flask_restful import Resource, Api
 from datetime import date
 from pony import orm
@@ -94,7 +95,7 @@ def add_payment_method(name):
 
 """RESTFUL METHODS"""
 
-class payment(Resource):
+class Payment(Resource):
     def get(self):
         ppp = show_payment_methods()
         header = {'Content-Type': 'text/html'}
@@ -107,18 +108,19 @@ class payment(Resource):
                )
 
     def post(self, dict):
-        data = add_payment_method(**kwargs)
+        rrr = request.args.get('url')        
+        data = add_payment_method(rrr)
         return make_response(render_template(
                'template.html', **data), 201, header      
                )
 
 
-class home(Resource):
+class Home(Resource):
     def get(self):
         return {'hello': 'world'}
 
 
-class template_test(Resource):
+class Template_test(Resource):
     def get(self):
         header = {'Content-Type': 'text/html'}
         data = {
@@ -129,12 +131,39 @@ class template_test(Resource):
                'template.html', **data), 200, header      
                )
 
+class Reservation(Resource):
+    def get(self):
+        header = {'Content-Type': 'text/html'}
+        rrr = request.args.get('url')
+        resp = requests.get('http://127.0.0.1:5000')
+        import pdb; pdb.set_trace()
+        data = {
+                "my_string": "Chocolate!",
+                "my_list": [7, 4, 8, 6, 1, 5, 3, 0, 2, 9]
+                }
+        return make_response(render_template(
+               'reservations.html', **data), 200, header      
+               )
+
+    def post(self):
+        rrr = request.args.get('my_string')
+        resp = requests.get('http://127.0.0.1:5000')
+        import pdb; pdb.set_trace()
+        header = {'Content-Type': 'text/html'}
+        data = {
+                "url": rrr
+                }
+        return make_response(render_template(
+               'reservations.html', **data), 200, header 
+                )
+
 """ENDPOINTS"""
 
-api.add_resource(home, "/")
-api.add_resource(template_test, "/test")
-api.add_resource(payment, "/payment")
+api.add_resource(Home, "/")
+api.add_resource(Template_test, "/test")
+api.add_resource(Payment, "/payment")
+api.add_resource(Reservation, "/reservations")
 
 
 if '__name__' == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, Threaded=True)
