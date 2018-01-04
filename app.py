@@ -14,17 +14,17 @@ db = orm.Database()
 
 
 class Guest(db.Entity):
-    nome = Required(str)
-    cognome = Required(str)
-    nome_accompagnate = Optional(str)
-    cognome_accompagnate = Optional(str)
-    email = Required(str, unique=True)
-    telefono = Optional(str, unique=True)
-    telefono_opt = Optional(str)
-    reservations = Set('Reservation')
-    allergies = Optional(str)
-    notes = Optional(str)
-    n_reservations = Optional(str)
+    nome = orm.Required(str)
+    cognome = orm.Required(str)
+    nome_accompagnate = orm.Optional(str)
+    cognome_accompagnate = orm.Optional(str)
+    email = orm.Required(str, unique=True)
+    telefono = orm.Optional(str, unique=True)
+    telefono_opt = orm.Optional(str)
+    reservations = orm.Set('Reservation')
+    allergies = orm.Optional(str)
+    notes = orm.Optional(str)
+    n_reservations = orm.Optional(str)
 
 
 class Offer(db.Entity):
