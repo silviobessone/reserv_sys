@@ -104,7 +104,7 @@ class payment(Resource):
                )
 
     def post(self, dict):
-        data = add_payment_method(**kwargs):
+        data = add_payment_method(**kwargs)
         return make_response(render_template(
                'template.html', **data), 201, header      
                )
