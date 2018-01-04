@@ -14,14 +14,17 @@ db = orm.Database()
 
 
 class Guest(db.Entity):
-    nome = orm.Required(str)
-    cognome = orm.Required(str)
-    nome_accompagnate = orm.Optional(str)
-    cognome_accompagnate = orm.Optional(str)
-    email = orm.Required(str, unique=True)
-    telefono = orm.Optional(str, unique=True)
-    telefono_opt = orm.Optional(str)
-    reservations = orm.Set('Reservation')
+    nome = Required(str, 18)
+    cognome = Required(str)
+    nome_accompagnate = Optional(str)
+    cognome_accompagnate = Optional(str)
+    email = Required(str, unique=True)
+    telefono = Optional(str, unique=True)
+    telefono_opt = Optional(str)
+    reservations = Set('Reservation')
+    allergies = Optional(str)
+    notes = Optional(str)
+    n_reservations = Optional(str)
 
 
 class Offer(db.Entity):
@@ -130,7 +133,7 @@ class template_test(Resource):
 
 api.add_resource(home, "/")
 api.add_resource(template_test, "/test")
-api.add_resource(payment, "/payments")
+api.add_resource(payment, "/payment")
 
 
 if '__name__' == '__main__':
