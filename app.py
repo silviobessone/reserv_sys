@@ -1,5 +1,4 @@
 from flask import Flask, render_template, make_response, request
-import requests
 from flask_restful import Resource, Api
 from datetime import date
 from pony import orm
@@ -83,10 +82,12 @@ db.generate_mapping(create_tables=True)
 
 """DECORATED FUNCTIONS"""
 
+
 @orm.db_session
 def show_payment_methods():
     mmm = Payment_method[1]
     return mmm
+
 
 @orm.db_session
 def add_payment_method(name):
@@ -94,6 +95,7 @@ def add_payment_method(name):
 
 
 """RESTFUL METHODS"""
+
 
 class Payment(Resource):
     def get(self):
@@ -108,10 +110,10 @@ class Payment(Resource):
                )
 
     def post(self, dict):
-        rrr = request.args.get('url')        
+        # rrr = request.args.get('url')
         data = add_payment_method(rrr)
         return make_response(render_template(
-               'template.html', **data), 201, header      
+               'template.html', **data), 201, header
                )
 
 
@@ -128,33 +130,29 @@ class Template_test(Resource):
                 "my_list": [7, 4, 8, 6, 1, 5, 3, 0, 2, 9]
                 }
         return make_response(render_template(
-               'template.html', **data), 200, header      
+               'template.html', **data), 200, header
                )
 
-class Reservation(Resource):
+class Reservations(Resource):
     def get(self):
         header = {'Content-Type': 'text/html'}
-        rrr = request.args.get('url')
-        resp = requests.get('http://127.0.0.1:5000')
-        import pdb; pdb.set_trace()
         data = {
                 "my_string": "Chocolate!",
                 "my_list": [7, 4, 8, 6, 1, 5, 3, 0, 2, 9]
                 }
         return make_response(render_template(
-               'reservations.html', **data), 200, header      
+               'reservations.html', **data), 200, header
                )
 
     def post(self):
-        rrr = request.args.get('my_string')
-        resp = requests.get('http://127.0.0.1:5000')
+        rrr = request.form.get('my_string')
         import pdb; pdb.set_trace()
         header = {'Content-Type': 'text/html'}
         data = {
                 "url": rrr
                 }
         return make_response(render_template(
-               'reservations.html', **data), 200, header 
+               'reservations.html', **data), 200, header
                 )
 
 """ENDPOINTS"""
@@ -162,8 +160,8 @@ class Reservation(Resource):
 api.add_resource(Home, "/")
 api.add_resource(Template_test, "/test")
 api.add_resource(Payment, "/payment")
-api.add_resource(Reservation, "/reservations")
+api.add_resource(Reservations, "/reservations")
 
 
 if '__name__' == '__main__':
-    app.run(debug=True, Threaded=True)
+    app.run(debug=True)
