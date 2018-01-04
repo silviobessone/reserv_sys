@@ -14,7 +14,7 @@ db = orm.Database()
 
 
 class Guest(db.Entity):
-    nome = Required(str, 18)
+    nome = Required(str)
     cognome = Required(str)
     nome_accompagnate = Optional(str)
     cognome_accompagnate = Optional(str)
