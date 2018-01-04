@@ -91,7 +91,7 @@ def show_payment_methods():
 
 @orm.db_session
 def add_payment_method(name):
-    Payment_method(name)
+    Payment_method(nome=name)
 
 
 """RESTFUL METHODS"""
@@ -102,16 +102,21 @@ class Payment(Resource):
         ppp = show_payment_methods()
         header = {'Content-Type': 'text/html'}
         data = {
-            "my_string": ppp.nome,
+            "my_string": ppp,
             "my_list": [7, 4, 8, 6, 1, 5, 3, 0, 2, 9]
             }
         return make_response(render_template(
                'template.html', **data), 200, header
                )
 
-    def post(self, dict):
-        # rrr = request.args.get('url')
-        data = add_payment_method(rrr)
+    def post(self):
+        rrr = request.form.get('nome')
+        add_payment_method(rrr)
+        header = {'Content-Type': 'text/html'}
+        data = {
+            "my_string": rrr,
+            "my_list": [7, 4, 8, 6, 1, 5, 3, 0, 2, 9]
+            }
         return make_response(render_template(
                'template.html', **data), 201, header
                )
@@ -146,7 +151,6 @@ class Reservations(Resource):
 
     def post(self):
         rrr = request.form.get('my_string')
-        import pdb; pdb.set_trace()
         header = {'Content-Type': 'text/html'}
         data = {
                 "url": rrr
