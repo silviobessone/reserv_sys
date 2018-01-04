@@ -129,7 +129,7 @@ class template_test(Resource):
                'template.html', **data), 200, header      
                )
 
-"""ENDPOINT"""
+"""ENDPOINTS"""
 
 api.add_resource(home, "/")
 api.add_resource(template_test, "/test")
