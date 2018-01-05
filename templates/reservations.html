@@ -8,19 +8,74 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
 
-    <title>Hello, world!</title>
+    <!-- Own Styles -->
+    <link rel="stylesheet" href="../styles1.css">
+
+    <title>Prenotazione</title>
   </head>
   <body>
-    <div class="container">
-      <p>My string: {{my_string}}</p>
-      <p>Value from the list: {{my_list[3]}}</p>
-      <p>Loop through the list:</p>
-      <ul>
-        {% for n in my_list %}
-        <li>{{n}}</li>
-        {% endfor %}
-      </ul>
-
+    <div class="container.fluid">
+      <div class="fixed">
+        <form class="form-inline">
+          <div class="form-group">
+            <!-- <label for="nome">Nome:</label> -->
+            <input type="nome" class="form-control" placeholder="Nome">
+            <!-- <label for="cognome">Cognome:</label> -->
+            <input type="cognome" class="form-control" placeholder="Cognome">
+            <!-- <label for="nome2">Nome Accompagnatore:</label> -->
+            <input type="nome2" class="form-control" placeholder="Nome Accompagnatore">
+            <!-- <label for="cognome2">Cognome Accompagnatore:</label> -->
+            <input type="cognome2" class="form-control" placeholder="Cognome Accompagnatore">
+            <!-- <label for="email">Email:</label> -->
+            <input type="email" class="form-control" placeholder="e-mail">
+            <!-- <label for="pwd">Telefono:</label> -->
+            <input type="telefono" class="form-control" placeholder="Telefono">
+            <!-- <label for="pwd">Telefono (opt):</label> -->
+            <input type="telefono2" class="form-control" placeholder="Telefono 2">
+            <!-- <label for="pwd">Allergie:</label> -->
+            <input type="allergie" class="form-control" placeholder="Allergie">
+            <!-- <label for="pwd">Altro</label> -->
+            <input type="altro" class="form-control" placeholder="Altra Informazione">
+            <br>
+            <button type="submit" class="btn btn-success">Registra</button>
+          </div>
+        </form>
+      </div>
+        <h2>Hover Rows</h2>
+        <p>The .table-hover class enables a hover state on table rows:</p>
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>NOME</th>
+              <th>COGNOME</th>
+              <th>NOME ACC.</th>
+              <th>COGNOME ACC.</th>
+              <th>EMAIL</th>
+              <th>TELEFONO</th>
+              <th>TELEFONO 2</th>
+              <th>ALLERGIE</th>
+              <th>ALTRO</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>John</td>
+              <td>Doe</td>
+              <td>john@example.com</td>
+            </tr>
+            <tr>
+              <td>Mary</td>
+              <td>Moe</td>
+              <td>mary@example.com</td>
+            </tr>
+            <tr>
+              <td>July</td>
+              <td>Dooley</td>
+              <td>july@example.com</td>
+            </tr>
+          </tbody>
+        </table>
+    </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
