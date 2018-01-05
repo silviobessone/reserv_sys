@@ -98,6 +98,29 @@ def show_reservations():
     data = db.select("select * from Reservation")
     return data
 
+@orm.db_session
+def add_guest(name,
+              surname,
+              name2='_',
+              cognome2='_',
+              email,
+              phone,
+              phone2='_',
+              allergies='_',
+              notes='_',
+              n_reserv=1):
+    Guest(nome=name,
+          cognome=surname,
+          nome_accompagnate=name2,
+          cognome_accompagnate=cognome2,
+          email=email,
+          telefono=phone,
+          telefono_opt=phone2,
+          notes=notes,
+          n_reservations=1,
+          )
+    return data
+
 
 
 """RESTFUL METHODS"""
@@ -148,8 +171,13 @@ class Reservations(Resource):
     def get(self):
         header = {'Content-Type': 'text/html'}
         data = show_reservations()
+        data = "A string"
+        data = {
+                "my_string": data,
+                "my_list": data
+                }
         return make_response(render_template(
-               'reservations.html', **data), 200, header
+               'template.html', **data), 200, header
                )
 
     def post(self):
