@@ -198,11 +198,11 @@ class Template_test(Resource):
     def get(self):
         header = {'Content-Type': 'text/html'}
         data = {
-                "my_string": "Chocolate!",
-                "my_list": [7, 4, 8, 6, 1, 5, 3, 0, 2, 9]
+                "my_string": "Chocolate",
+                "my_list": ["C","H","O","C","O","L","A","T","E"]
                 }
         return make_response(render_template(
-               'reservations.html', **data), 200, header
+               'test.html', **data), 200, header
                )
 
 
