@@ -93,18 +93,50 @@ def show_payment_methods():
 def add_payment_method(name):
     Payment_method(nome=name)
 
+
 @orm.db_session
 def show_reservations():
     data = db.select("select * from Reservation")
     return data
 
+
+@orm.db_session
+def add_reservation(check_in,
+                    check_out,
+                    guest_id,
+                    offer_id,
+                    room,
+                    subtot,
+                    payment,
+                    dep_val='_',
+                    extra_serv_id='1',
+                    voucher_id='_',
+                    pagato=False,
+                    dep_tx='_'):
+    extra_serv_id = show_extra_serv(extra_serv_id)
+    Reservation(data_check_in=check_in,
+                data_check_out=check_out,
+                deposit_value=dep_val,
+                deposit_tx=dep_tx,
+                guest_id=guest_id,
+                offer_id=offer_id,
+                extra_services_id=extra_serv_id,
+                voucher_id=voucher_id,
+                room=room,
+                payment_method=payment,
+                pagato=pagato,
+                Totale_prov=subtot
+                )
+    return "OK"
+
+
 @orm.db_session
 def add_guest(name,
               surname,
-              name2='_',
-              cognome2='_',
               email,
               phone,
+              name2='_',
+              cognome2='_',
               phone2='_',
               allergies='_',
               notes='_',
@@ -119,8 +151,13 @@ def add_guest(name,
           notes=notes,
           n_reservations=1,
           )
-    return data
+    return "data"
 
+
+@orm.db_session
+def show_extra_serv(n):
+    extra_s = Extra_services[n]
+    return extra_s
 
 
 """RESTFUL METHODS"""
@@ -143,7 +180,7 @@ class Payment(Resource):
         add_payment_method(req)
         header = {'Content-Type': 'text/html'}
         data = {
-            "my_string": rrr,
+            "my_string": req,
             "my_list": [7, 4, 8, 6, 1, 5, 3, 0, 2, 9]
             }
         return make_response(render_template(
@@ -167,6 +204,7 @@ class Template_test(Resource):
                'template.html', **data), 200, header
                )
 
+
 class Reservations(Resource):
     def get(self):
         header = {'Content-Type': 'text/html'}
@@ -181,10 +219,35 @@ class Reservations(Resource):
                )
 
     def post(self):
-        req = request.form.get('my_string')
+        data_check_in = request.form.get('data_check_in')
+        check_out = request.form.get('data_check_out')
+        dep_val = request.form.get('deposit_value')
+        dep_tx = request.form.get('deposit_tx')
+        guest_id = request.form.get('guest_id')
+        offer_id = request.form.get('offer_id')
+        extra_serv_id = request.form.get('extra_services_id')
+        voucher_id = request.form.get('voucher_id')
+        room = request.form.get('room')
+        payment = request.form.get('payment_method')
+        pagato = request.form.get('pagato')
+        subtot = request.form.get('Totale_prov')
+        import pdb; pdb.set_trace()
+        add_reservation(check_in=data_check_in,
+                        check_out=check_out,
+                        guest_id=guest_id,
+                        offer_id=offer_id,
+                        room=room,
+                        subtot=subtot,
+                        payment=payment,
+                        dep_val=dep_val,
+                        extra_serv_id=extra_serv_id,
+                        voucher_id=voucher_id,
+                        pagato=pagato,
+                        dep_tx=dep_tx
+                        )
         header = {'Content-Type': 'text/html'}
         data = {
-                "url": req
+                "url": payment
                 }
         return make_response(render_template(
                'reservations.html', **data), 200, header
