@@ -93,6 +93,12 @@ def show_payment_methods():
 def add_payment_method(name):
     Payment_method(nome=name)
 
+@orm.db_session
+def show_reservations():
+    data = db.select("select * from Reservation")
+    return data
+
+
 
 """RESTFUL METHODS"""
 
@@ -110,8 +116,8 @@ class Payment(Resource):
                )
 
     def post(self):
-        rrr = request.form.get('nome')
-        add_payment_method(rrr)
+        req = request.form.get('nome')
+        add_payment_method(req)
         header = {'Content-Type': 'text/html'}
         data = {
             "my_string": rrr,
@@ -141,19 +147,16 @@ class Template_test(Resource):
 class Reservations(Resource):
     def get(self):
         header = {'Content-Type': 'text/html'}
-        data = {
-                "my_string": "Chocolate!",
-                "my_list": [7, 4, 8, 6, 1, 5, 3, 0, 2, 9]
-                }
+        data = show_reservations()
         return make_response(render_template(
                'reservations.html', **data), 200, header
                )
 
     def post(self):
-        rrr = request.form.get('my_string')
+        req = request.form.get('my_string')
         header = {'Content-Type': 'text/html'}
         data = {
-                "url": rrr
+                "url": req
                 }
         return make_response(render_template(
                'reservations.html', **data), 200, header
