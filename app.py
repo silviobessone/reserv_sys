@@ -202,7 +202,7 @@ class Template_test(Resource):
                 "my_list": [7, 4, 8, 6, 1, 5, 3, 0, 2, 9]
                 }
         return make_response(render_template(
-               'template.html', **data), 200, header
+               'reservations.html', **data), 200, header
                )
 
 
