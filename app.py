@@ -168,7 +168,7 @@ class Payment(Resource):
         ppp = show_payment_methods()
         header = {'Content-Type': 'text/html'}
         data = {
-            "my_string": ppp,
+            "my_string": ppp.nome,
             "my_list": [7, 4, 8, 6, 1, 5, 3, 0, 2, 9]
             }
         return make_response(render_template(
@@ -177,6 +177,7 @@ class Payment(Resource):
 
     def post(self):
         req = request.form.get('nome')
+        print(dir(req))
         add_payment_method(req)
         header = {'Content-Type': 'text/html'}
         data = {
@@ -231,7 +232,6 @@ class Reservations(Resource):
         payment = request.form.get('payment_method')
         pagato = request.form.get('pagato')
         subtot = request.form.get('Totale_prov')
-        import pdb; pdb.set_trace()
         add_reservation(check_in=data_check_in,
                         check_out=check_out,
                         guest_id=guest_id,
