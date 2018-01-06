@@ -219,14 +219,18 @@ class Reservations(Resource):
         #           }
         dicty = []
         def rearrange_reserv(data):
+            """[(1, '2017-12-10', '2017-12-11', 500,
+                'A5056086754', 1, 1, None, 1, 1, None, 1, 100)]"""
             dict_in = {'0': 'resv_id', '1': 'ciok-in', '2': 'ciok-out',
-                       '3': 'nome2', '4': 'cognome2', '5': 'email',
-                       '6': 'nome', '7': 'cognome', '8': 'telf',
-                       '9': 'allergie', '10': 'altro', '11': 'voucher', '12':'room'
+                       '3': 'deposit_value', '4': 'deposit_tx', '5': 'guest_id',
+                       '6': 'offer_id', '7': 'extra_serv', '8': 'voucher_id',
+                       '9': 'room', '10': 'payment', '11': 'anticipo',
+                       '12':'Totale_prov'
                        }
             dict_out = {'room': 0, 'nome': 1, 'cognome': 2, 'nome2': 3,
                         'cognome2': 4, 'email': 5, 'ciok-in': 6, 'ciok-out': 7,
-                        'telf': 8, 'allergie': 9, 'altro': 10, 'voucher': 11
+                        'telf': 8, 'allergie': 9, 'altro': 10, 'voucher': 11,
+                        'resv_id': 12
                         }
             lista_final = []
             dict_final = {}
