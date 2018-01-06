@@ -84,9 +84,9 @@ db.generate_mapping(create_tables=True)
 
 
 @orm.db_session
-def show_payment_methods():
-    mmm = Payment_method[1]
-    return mmm
+def show_payment_method(n):
+    payment_m = Payment_method.get(id=n)
+    return payment_m
 
 
 @orm.db_session
@@ -96,7 +96,7 @@ def add_payment_method(name):
 
 @orm.db_session
 def show_reservations():
-    data = db.select("select * from Reservation")
+    data = db.select("SELECT * FROM Reservation")
     return data
 
 
@@ -160,12 +160,24 @@ def show_extra_serv(n):
     return extra_s
 
 
+@orm.db_session
+def show_guest(n):
+    guest = Guest[n]
+    return guest
+
+
+@orm.db_session
+def show_offer(n):
+    offer = Offer[n]
+    return offer
+
+
 """RESTFUL METHODS"""
 
 
 class Payment(Resource):
     def get(self):
-        ppp = show_payment_methods()
+        ppp = show_payment_method(1)
         header = {'Content-Type': 'text/html'}
         data = {
             "my_string": ppp.nome,
@@ -211,39 +223,48 @@ class Reservations(Resource):
     def get(self):
         header = {'Content-Type': 'text/html'}
         data = show_reservations()
-        # dicty0 = {'0': 'id', '1': 'nome', '2': 'cognome',
-        #           '3': 'nome2', '4': 'cognome2', '5': 'altro',
-        #           '6': 'altro2', '7': 'altro3', '8': 'altro4',
-        #           '9': 'altro5', '10': 'altro6', '11': 'altro7',
-        #           '12': 'altro8'
-        #           }
-        dicty = []
         def rearrange_reserv(data):
             """[(1, '2017-12-10', '2017-12-11', 500,
                 'A5056086754', 1, 1, None, 1, 1, None, 1, 100)]"""
-            dict_in = {'0': 'resv_id', '1': 'ciok-in', '2': 'ciok-out',
-                       '3': 'deposit_value', '4': 'deposit_tx', '5': 'guest_id',
-                       '6': 'offer_id', '7': 'extra_serv', '8': 'voucher_id',
-                       '9': 'room', '10': 'payment', '11': 'anticipo',
-                       '12':'Totale_prov'
-                       }
-            dict_out = {'room': 0, 'nome': 1, 'cognome': 2, 'nome2': 3,
-                        'cognome2': 4, 'email': 5, 'ciok-in': 6, 'ciok-out': 7,
-                        'telf': 8, 'allergie': 9, 'altro': 10, 'voucher': 11,
-                        'resv_id': 12
-                        }
-            lista_final = []
-            dict_final = {}
-            print(data)
+            lista_raw = list(range(0,19))
+            lista_end = list()
             for tupla in data:
-                lista = list(range(0,13))
-                dict_1 = dict_in
-                dict_org = {}
-                for y,elem in enumerate(tupla, start=0):
-                    dict_1[str(y)] = elem
-            print(dict_1) 
-
-        rearrange_reserv(data)
+                lista = lista_raw
+                for i,v in enumerate(tupla):
+                    if i == 0:
+                        lista[15] = v
+                    if i == 1:
+                        lista[6] = v
+                    if i == 2:
+                        lista[7] = v
+                    if i == 3:
+                        lista[16] = v
+                    if i == 4:
+                        lista[17] = v
+                    if i == 5:
+                        guest = show_guest(v)
+                        lista[1] = guest.nome
+                        lista[2] = guest.cognome
+                        lista[3] = guest.nome_accompagnate
+                        lista[4] = guest.cognome_accompagnate
+                        lista[5] = guest.email
+                        lista[10] = guest.telefono
+                        lista[11] = guest.allergies
+                        lista[12] = guest.notes
+                    if i == 6:
+                        lista[8] = show_offer(v)
+                    if i == 7:
+                        """See how to ask SET in Pony Orm """
+                        lista[9] = v
+                    if i == 8:
+                        lista[14] = v
+                    if i == 9:
+                        lista[0] = v
+                    if i == 10:
+                        lista[18] = show_payment_methods(v)
+                    lista_end.append(tuple(lista))
+                return lista_end
+        data = rearrange_reserv(data)
 
         table = {'table': data}
         return make_response(render_template(
