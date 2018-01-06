@@ -217,6 +217,30 @@ class Reservations(Resource):
         #           '9': 'altro5', '10': 'altro6', '11': 'altro7',
         #           '12': 'altro8'
         #           }
+        dicty = []
+        def rearrange_reserv(data):
+            dict_in = {'0': 'resv_id', '1': 'ciok-in', '2': 'ciok-out',
+                       '3': 'nome2', '4': 'cognome2', '5': 'email',
+                       '6': 'nome', '7': 'cognome', '8': 'telf',
+                       '9': 'allergie', '10': 'altro', '11': 'voucher', '12':'room'
+                       }
+            dict_out = {'room': 0, 'nome': 1, 'cognome': 2, 'nome2': 3,
+                        'cognome2': 4, 'email': 5, 'ciok-in': 6, 'ciok-out': 7,
+                        'telf': 8, 'allergie': 9, 'altro': 10, 'voucher': 11
+                        }
+            lista_final = []
+            dict_final = {}
+            print(data)
+            for tupla in data:
+                lista = list(range(0,13))
+                dict_1 = dict_in
+                dict_org = {}
+                for y,elem in enumerate(tupla, start=0):
+                    dict_1[str(y)] = elem
+            print(dict_1) 
+
+        rearrange_reserv(data)
+
         table = {'table': data}
         return make_response(render_template(
                'reservations.html', **table), 200, header
