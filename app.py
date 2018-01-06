@@ -199,8 +199,9 @@ class Template_test(Resource):
         header = {'Content-Type': 'text/html'}
         data = {
                 "my_string": "Chocolate",
-                "my_list": ["C","H","O","C","O","L","A","T","E"]
+                "my_list": ["C", "H", "O", "C", "O", "L", "A", "T", "E"]
                 }
+        print(data)
         return make_response(render_template(
                'test.html', **data), 200, header
                )
@@ -210,13 +211,15 @@ class Reservations(Resource):
     def get(self):
         header = {'Content-Type': 'text/html'}
         data = show_reservations()
-        data = "A string"
-        data = {
-                "my_string": data,
-                "my_list": data
-                }
+        # dicty0 = {'0': 'id', '1': 'nome', '2': 'cognome',
+        #           '3': 'nome2', '4': 'cognome2', '5': 'altro',
+        #           '6': 'altro2', '7': 'altro3', '8': 'altro4',
+        #           '9': 'altro5', '10': 'altro6', '11': 'altro7',
+        #           '12': 'altro8'
+        #           }
+        table = {'table': data}
         return make_response(render_template(
-               'template.html', **data), 200, header
+               'reservations.html', **table), 200, header
                )
 
     def post(self):
