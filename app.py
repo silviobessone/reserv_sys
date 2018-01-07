@@ -276,9 +276,9 @@ class Reservations(Resource):
                         # ROOM
                         lista[0] = v
                     if i == 9:
-                        # ROOM
-                        lista[0] = v
-                    if i == 10:
+                        # Payment_method
+                        lista[13] = 'Voucher'
+                    if i == 11:
                         # Payment Method
                         payment_method = show_payment_method(v)
                         lista[17] = payment_method
