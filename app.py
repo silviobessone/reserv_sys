@@ -86,7 +86,7 @@ db.generate_mapping(create_tables=True)
 @orm.db_session
 def show_payment_method(n):
     payment_m = Payment_method.get(id=n)
-    return payment_m
+    return payment_m.nome
 
 
 @orm.db_session
@@ -228,19 +228,28 @@ class Reservations(Resource):
                 'A5056086754', 1, 1, None, 1, 1, None, 1, 100)]"""
             lista_raw = list(range(0,19))
             lista_end = list()
+            print(data)
+            import pdb; pdb.set_trace()
             for tupla in data:
+                print("Siguiente tupla {}".format(tupla))
                 lista = lista_raw
+                """print(tupla)"""
                 for i,v in enumerate(tupla):
                     if i == 0:
                         lista[15] = v
+                        # print(lista)
                     if i == 1:
                         lista[6] = v
+                        # print(lista)
                     if i == 2:
                         lista[7] = v
+                        # print(lista)
                     if i == 3:
                         lista[16] = v
+                        # print(lista)
                     if i == 4:
                         lista[17] = v
+                        # print(lista)
                     if i == 5:
                         guest = show_guest(v)
                         lista[1] = guest.nome
@@ -251,19 +260,27 @@ class Reservations(Resource):
                         lista[10] = guest.telefono
                         lista[11] = guest.allergies
                         lista[12] = guest.notes
+                        # print(lista)
                     if i == 6:
                         lista[8] = show_offer(v)
+                        # print(lista)
                     if i == 7:
                         """See how to ask SET in Pony Orm """
                         lista[9] = v
+                        # print(lista)
                     if i == 8:
                         lista[14] = v
+                        # print(lista)
                     if i == 9:
                         lista[0] = v
+                        # print(lista)
                     if i == 10:
-                        lista[18] = show_payment_methods(v)
-                    lista_end.append(tuple(lista))
-                return lista_end
+                        payment_method = show_payment_method(1)
+                        lista[18] = payment_method
+                        # print(lista)
+                        lista_end.append(tuple(lista))
+                print(lista_end)
+            return lista_end
         data = rearrange_reserv(data)
 
         table = {'table': data}
