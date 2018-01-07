@@ -1,6 +1,7 @@
 from flask import Flask, render_template, make_response, request
 from flask_restful import Resource, Api
-from model.dbase import *
+from model.dbase import (Guest, Offer, Payment_method, Extra_services,
+                         Voucher, Reservation, db)
 from pony import orm
 
 
@@ -105,6 +106,7 @@ def show_offer(n):
     offer = Offer[n]
     return offer
 
+
 @orm.db_session
 def show_voucher(n):
     voucher = Voucher[n]
@@ -162,22 +164,23 @@ class Reservations(Resource):
     def get(self):
         header = {'Content-Type': 'text/html'}
         data = show_reservations()
+
         def rearrange_reserv(data):
             """[(1, '2017-12-10', '2017-12-11', 500,
                 'A5056086754', 1, 1, None, 1, 1, None, 1, 100)]"""
-            lista_raw = list(range(0,18))
+            lista_raw = list(range(0, 18))
             lista_end = list()
             for tupla in data:
                 """(1, '2017-12-10', '2017-12-11', 500,
                     'A5056086754', 1, 1, None, 1, 1, None, 1, 100)
-                    [1, 'Pepito', 'Perez', 'Jimena', 'Jimenez', 
+                    [1, 'Pepito', 'Perez', 'Jimena', 'Jimenez',
                     'pepito@email.com', '2017-12-10',
                     '2017-12-11', Offer[1], None, '556893657', 'Fragole',
                     '2 bambini 6-7 anni', 13, 1, 500, 'A5056086754', 'Stripe']
                 """
                 lista = lista_raw
                 print(tupla)
-                for i,v in enumerate(tupla):
+                for i, v in enumerate(tupla):
                     if i == 0:
                         # resv_id
                         lista[14] = v
@@ -223,7 +226,7 @@ class Reservations(Resource):
                         lista_end.append(tuple(lista))
 
                 '''(2, '2017-12-17', '2017-12-18', 700, 'B3255086798', 2, 3,
-                    None, 1, 1, None, 1, 150)'''        
+                    None, 1, 1, None, 1, 150)'''
                 print(lista_end)
                 """(1, 'Manuel', 'Carreño', 'Julia', 'Guzman',
                  'm.carreno@email.com', '2017-12-10', '2017-12-11', Offer[1],
