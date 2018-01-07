@@ -228,9 +228,7 @@ class Reservations(Resource):
                 'A5056086754', 1, 1, None, 1, 1, None, 1, 100)]"""
             lista_raw = list(range(0,18))
             lista_end = list()
-            print(data)
             for tupla in data:
-                print("Siguiente tupla '{}'".format(tupla))
                 """(1, '2017-12-10', '2017-12-11', 500,
                     'A5056086754', 1, 1, None, 1, 1, None, 1, 100)
                     [1, 'Pepito', 'Perez', 'Jimena', 'Jimenez', 
@@ -242,7 +240,7 @@ class Reservations(Resource):
                 """print(tupla)"""
                 for i,v in enumerate(tupla):
                     if i == 0:
-                        # Resv_id
+                        # resv_id
                         lista[14] = v
                     if i == 1:
                         # Ciock-in
@@ -275,8 +273,8 @@ class Reservations(Resource):
                         # Offerta extra
                         lista[9] = v
                     if i == 8:
-                        # Resv_id
-                        lista[14] = v
+                        # ROOM
+                        lista[0] = v
                     if i == 9:
                         # ROOM
                         lista[0] = v
@@ -284,7 +282,8 @@ class Reservations(Resource):
                         # Payment Method
                         payment_method = show_payment_method(1)
                         lista[17] = payment_method
-                        print(lista)
+                        print("Siguiente tupla '{}'".format(tupla))
+                        print("La lista resultante {}".format(lista))
                         lista_end.append(tuple(lista))
                 '''(2, '2017-12-17', '2017-12-18', 700, 'B3255086798', 2, 3,
                     None, 1, 1, None, 1, 150)'''        
