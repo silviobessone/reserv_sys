@@ -85,8 +85,8 @@ db.generate_mapping(create_tables=True)
 
 @orm.db_session
 def show_payment_method(n):
-    payment_m = Payment_method.get(id=n)
-    return payment_m.nome
+    payment_m = Payment_method[n]
+    return payment_m
 
 
 @orm.db_session
@@ -171,6 +171,11 @@ def show_offer(n):
     offer = Offer[n]
     return offer
 
+@orm.db_session
+def show_voucher(n):
+    voucher = Voucher[n]
+    return voucher
+
 
 """RESTFUL METHODS"""
 
@@ -237,7 +242,7 @@ class Reservations(Resource):
                     '2 bambini 6-7 anni', 13, 1, 500, 'A5056086754', 'Stripe']
                 """
                 lista = lista_raw
-                """print(tupla)"""
+                print(tupla)
                 for i,v in enumerate(tupla):
                     if i == 0:
                         # resv_id
@@ -269,22 +274,20 @@ class Reservations(Resource):
                         # offerta
                         lista[8] = show_offer(v)
                     if i == 7:
-                        """See how to ask SET in Pony Orm """
-                        # Offerta extra
-                        lista[9] = v
+                        # Voucher
+                        voucher = show_voucher(v)
+                        lista[13] = voucher.numero
                     if i == 8:
                         # ROOM
                         lista[0] = v
                     if i == 9:
                         # Payment_method
-                        lista[13] = 'Voucher'
-                    if i == 11:
-                        # Payment Method
                         payment_method = show_payment_method(v)
-                        lista[17] = payment_method
+                        lista[17] = payment_method.nome
                         print("Siguiente tupla '{}'".format(tupla))
                         print("La lista resultante {}".format(lista))
                         lista_end.append(tuple(lista))
+
                 '''(2, '2017-12-17', '2017-12-18', 700, 'B3255086798', 2, 3,
                     None, 1, 1, None, 1, 150)'''        
                 print(lista_end)
