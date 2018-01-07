@@ -280,7 +280,7 @@ class Reservations(Resource):
                         lista[0] = v
                     if i == 10:
                         # Payment Method
-                        payment_method = show_payment_method(1)
+                        payment_method = show_payment_method(v)
                         lista[17] = payment_method
                         print("Siguiente tupla '{}'".format(tupla))
                         print("La lista resultante {}".format(lista))
