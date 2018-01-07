@@ -226,18 +226,7 @@ class Reservations(Resource):
         def rearrange_reserv(data):
             """[(1, '2017-12-10', '2017-12-11', 500,
                 'A5056086754', 1, 1, None, 1, 1, None, 1, 100)]"""
-            # dict_in = {'0': 'resv_id', '1': 'ciok-in', '2': 'ciok-out',
-            #            '3': 'deposit_value', '4': 'deposit_tx', '5': 'guest_id',
-            #            '6': 'offer_id', '7': 'extra_serv', '8': 'voucher_id',
-            #            '9': 'room', '10': 'payment', '11': 'anticipo',
-            #            '12':'Totale_prov'
-            #            }
-            # dict_out = {'room': 0, 'nome': 1, 'cognome': 2, 'nome2': 3,
-            #             'cognome2': 4, 'email': 5, 'ciok-in': 6, 'ciok-out': 7,
-            #             'telf': 8, 'allergie': 9, 'altro': 10, 'voucher': 11,
-            #             'resv_id': 12
-            #             }
-            lista_raw = list(range(0,19))
+            lista_raw = list(range(0,18))
             lista_end = list()
             print(data)
             import pdb; pdb.set_trace()
@@ -247,7 +236,7 @@ class Reservations(Resource):
                 """print(tupla)"""
                 for i,v in enumerate(tupla):
                     if i == 0:
-                        lista[15] = v
+                        lista[14] = v
                         # print(lista)
                     if i == 1:
                         lista[6] = v
@@ -256,10 +245,10 @@ class Reservations(Resource):
                         lista[7] = v
                         # print(lista)
                     if i == 3:
-                        lista[16] = v
+                        lista[15] = v
                         # print(lista)
                     if i == 4:
-                        lista[17] = v
+                        lista[16] = v
                         # print(lista)
                     if i == 5:
                         guest = show_guest(v)
@@ -287,10 +276,16 @@ class Reservations(Resource):
                         # print(lista)
                     if i == 10:
                         payment_method = show_payment_method(1)
-                        lista[18] = payment_method
+                        lista[17] = payment_method
                         # print(lista)
                         lista_end.append(tuple(lista))
+                '''(2, '2017-12-17', '2017-12-18', 700, 'B3255086798', 2, 3,
+                    None, 1, 1, None, 1, 150)'''        
                 print(lista_end)
+                """(1, 'Manuel', 'Carreño', 'Julia', 'Guzman',
+                 'm.carreno@email.com', '2017-12-10', '2017-12-11', Offer[1],
+                 1, '116868468', 'Aglio', '', 13, 1, 5, 500, 'E5056086985',
+                 'Stripe')"""
             return lista_end
         data = rearrange_reserv(data)
 
