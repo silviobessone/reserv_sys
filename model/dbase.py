@@ -15,6 +15,9 @@ class Guest(db.Entity):
     telefono = orm.Optional(str, unique=True)
     telefono_opt = orm.Optional(str)
     reservations = orm.Set('Reservation')
+    allergies = orm.Optional(str)
+    notes = orm.Optional(str)
+    n_reservations = orm.Optional(str)
 
 
 class Offer(db.Entity):
@@ -65,30 +68,3 @@ class Reservation(db.Entity):
     pagato = orm.Required(bool, default=False)
     Totale_prov = orm.Required(int)
 
-
-db.bind(provider='sqlite', filename='database.sqlite', create_db=True)
-orm.sql_debug(True)
-db.generate_mapping(create_tables=True)
-
-class insert_payment(Resource):
-    def get(self):
-        @orm.db_session
-        def print_payment_methods():
-            p = Payment_method[1]
-            print(p.nome)
-            return make_response(render_template(
-               'template.html', my_string=p.nome), 200, header
-               )
-
-    def post(self):
-        @orm.db_session
-        def insert_payment():
-            guest = {
-                    "nome": "Mario",
-                    "cognome": "Rossi",
-                    "nome_accompagnate": "Mayra",
-                    "cognome_accompagnate": "Perez",
-                    "email": "mario@email.com",
-                    "telefono": "45087234", 
-                    }
-            Payment_method(nome="Stripe")
