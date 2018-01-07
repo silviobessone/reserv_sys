@@ -229,28 +229,35 @@ class Reservations(Resource):
             lista_raw = list(range(0,18))
             lista_end = list()
             print(data)
-            import pdb; pdb.set_trace()
             for tupla in data:
-                print("Siguiente tupla {}".format(tupla))
+                print("Siguiente tupla '{}'".format(tupla))
+                """(1, '2017-12-10', '2017-12-11', 500,
+                    'A5056086754', 1, 1, None, 1, 1, None, 1, 100)
+                    [1, 'Pepito', 'Perez', 'Jimena', 'Jimenez', 
+                    'pepito@email.com', '2017-12-10',
+                    '2017-12-11', Offer[1], None, '556893657', 'Fragole',
+                    '2 bambini 6-7 anni', 13, 1, 500, 'A5056086754', 'Stripe']
+                """
                 lista = lista_raw
                 """print(tupla)"""
                 for i,v in enumerate(tupla):
                     if i == 0:
+                        # Resv_id
                         lista[14] = v
-                        # print(lista)
                     if i == 1:
+                        # Ciock-in
                         lista[6] = v
-                        # print(lista)
                     if i == 2:
+                        # Ciock-out
                         lista[7] = v
-                        # print(lista)
                     if i == 3:
+                        # Anticipo
                         lista[15] = v
-                        # print(lista)
                     if i == 4:
+                        # Dep_tx
                         lista[16] = v
-                        # print(lista)
                     if i == 5:
+                        # from guest_id
                         guest = show_guest(v)
                         lista[1] = guest.nome
                         lista[2] = guest.cognome
@@ -260,24 +267,24 @@ class Reservations(Resource):
                         lista[10] = guest.telefono
                         lista[11] = guest.allergies
                         lista[12] = guest.notes
-                        # print(lista)
                     if i == 6:
+                        # offerta
                         lista[8] = show_offer(v)
-                        # print(lista)
                     if i == 7:
                         """See how to ask SET in Pony Orm """
+                        # Offerta extra
                         lista[9] = v
-                        # print(lista)
                     if i == 8:
+                        # Resv_id
                         lista[14] = v
-                        # print(lista)
                     if i == 9:
+                        # ROOM
                         lista[0] = v
-                        # print(lista)
                     if i == 10:
+                        # Payment Method
                         payment_method = show_payment_method(1)
                         lista[17] = payment_method
-                        # print(lista)
+                        print(lista)
                         lista_end.append(tuple(lista))
                 '''(2, '2017-12-17', '2017-12-18', 700, 'B3255086798', 2, 3,
                     None, 1, 1, None, 1, 150)'''        
