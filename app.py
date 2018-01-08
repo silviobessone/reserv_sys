@@ -1,6 +1,6 @@
 from flask import Flask, render_template, make_response, request
 from flask_restful import Resource, Api
-from model.dbase import *
+from model.dbase import db, Manager
 from pony import orm
 
 
@@ -20,7 +20,7 @@ db.generate_mapping(create_tables=True)
 
 class Payment(Resource):
     def get(self):
-        ppp = show_payment_method(1)
+        ppp = Manager.show_payment_method(1)
         header = {'Content-Type': 'text/html'}
         data = {
             "my_string": ppp.nome,
@@ -32,8 +32,7 @@ class Payment(Resource):
 
     def post(self):
         req = request.form.get('nome')
-        print(dir(req))
-        add_payment_method(req)
+        Manager.add_payment_method(req)
         header = {'Content-Type': 'text/html'}
         data = {
             "my_string": req,
@@ -65,21 +64,12 @@ class Template_test(Resource):
 class Reservations(Resource):
     def get(self):
         header = {'Content-Type': 'text/html'}
-        data = show_reservations()
+        data = Manager.show_reservations()
 
         def rearrange_reserv(data):
-            """[(1, '2017-12-10', '2017-12-11', 500,
-                'A5056086754', 1, 1, None, 1, 1, None, 1, 100)]"""
             lista_raw = list(range(0, 18))
             lista_end = list()
             for tupla in data:
-                """(1, '2017-12-10', '2017-12-11', 500,
-                    'A5056086754', 1, 1, None, 1, 1, None, 1, 100)
-                    [1, 'Pepito', 'Perez', 'Jimena', 'Jimenez',
-                    'pepito@email.com', '2017-12-10',
-                    '2017-12-11', Offer[1], None, '556893657', 'Fragole',
-                    '2 bambini 6-7 anni', 13, 1, 500, 'A5056086754', 'Stripe']
-                """
                 lista = lista_raw
                 print(tupla)
                 for i, v in enumerate(tupla):
@@ -100,7 +90,7 @@ class Reservations(Resource):
                         lista[16] = v
                     if i == 5:
                         # from guest_id
-                        guest = show_guest(v)
+                        guest = Manager.show_guest(v)
                         lista[1] = guest.nome
                         lista[2] = guest.cognome
                         lista[3] = guest.nome_accompagnate
@@ -111,29 +101,19 @@ class Reservations(Resource):
                         lista[12] = guest.notes
                     if i == 6:
                         # offerta
-                        lista[8] = show_offer(v)
+                        lista[8] = Manager.show_offer(v)
                     if i == 7:
                         # Voucher
-                        voucher = show_voucher(v)
+                        voucher = Manager.show_voucher(v)
                         lista[13] = voucher.numero
                     if i == 8:
                         # ROOM
                         lista[0] = v
                     if i == 9:
                         # Payment_method
-                        payment_method = show_payment_method(v)
+                        payment_method = Manager.show_payment_method(v)
                         lista[17] = payment_method.nome
-                        print("Siguiente tupla '{}'".format(tupla))
-                        print("La lista resultante {}".format(lista))
                         lista_end.append(tuple(lista))
-
-                '''(2, '2017-12-17', '2017-12-18', 700, 'B3255086798', 2, 3,
-                    None, 1, 1, None, 1, 150)'''
-                print(lista_end)
-                """(1, 'Manuel', 'Carreño', 'Julia', 'Guzman',
-                 'm.carreno@email.com', '2017-12-10', '2017-12-11', Offer[1],
-                 1, '116868468', 'Aglio', '', 13, 1, 5, 500, 'E5056086985',
-                 'Stripe')"""
             return lista_end
         data = rearrange_reserv(data)
 
@@ -155,19 +135,19 @@ class Reservations(Resource):
         payment = request.form.get('payment_method')
         pagato = request.form.get('pagato')
         subtot = request.form.get('Totale_prov')
-        add_reservation(check_in=data_check_in,
-                        check_out=check_out,
-                        guest_id=guest_id,
-                        offer_id=offer_id,
-                        room=room,
-                        subtot=subtot,
-                        payment=payment,
-                        dep_val=dep_val,
-                        extra_serv_id=extra_serv_id,
-                        voucher_id=voucher_id,
-                        pagato=pagato,
-                        dep_tx=dep_tx
-                        )
+        Manager.add_reservation(check_in=data_check_in,
+                                check_out=check_out,
+                                guest_id=guest_id,
+                                offer_id=offer_id,
+                                room=room,
+                                subtot=subtot,
+                                payment=payment,
+                                dep_val=dep_val,
+                                extra_serv_id=extra_serv_id,
+                                voucher_id=voucher_id,
+                                pagato=pagato,
+                                dep_tx=dep_tx
+                                )
         header = {'Content-Type': 'text/html'}
         data = {
                 "url": payment
