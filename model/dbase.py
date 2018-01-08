@@ -1,6 +1,7 @@
 from datetime import date
 from flask import Flask, render_template, make_response
 from flask_restful import Resource, Api
+from model.db_sessions import Manager
 from pony import orm
 
 db = orm.Database()
@@ -162,4 +163,3 @@ class Manager(object):
     def show_voucher(n):
         voucher = Voucher[n]
         return voucher
-    
