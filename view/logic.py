@@ -27,13 +27,15 @@ class Payment(Resource):
             "my_list": [7, 4, 8, 6, 1, 5, 3, 0, 2, 9]
             }
         return make_response(render_template(
-               'template.html', **data), 201, header
-               )
+               'template.html', **data), 201, header)
 
 
 class Home(Resource):
     def get(self):
-        return {'hello': 'world'}
+        header = {'Content-Type': 'text/html'}
+        data = {}
+        return make_response(render_template(
+               'index.html', **data), 200, header)
 
 
 class Template_test(Resource):
