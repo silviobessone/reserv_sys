@@ -1,6 +1,6 @@
-from flask import Flask, render_template, make_response, request
-from flask_restful import Resource, Api
-from model.dbase import db, Manager
+from flask import Flask
+from flask_restful import Api
+from model.dbase import db
 from view.logic import Home, Template_test, Payment, Reservations
 from pony import orm
 
