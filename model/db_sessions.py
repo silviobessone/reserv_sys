@@ -1,6 +1,9 @@
 from pony import orm
+from model.dbase import (db, Guest, Offer, Payment_method, Room,
+	                     Extra_services, Voucher, Reservation)
 
 class Manager(object):
+    # FROM PAYMENT ENDPOINT
     @orm.db_session
     def show_payment_method(n):
         payment_m = Payment_method[n]
@@ -12,8 +15,10 @@ class Manager(object):
         Payment_method(nome=name)
 
 
+    # FROM RSERVATIONS ENDPOINT
     @orm.db_session
     def show_reservations():
+        """GET"""
         data = db.select("SELECT * FROM Reservation")
         return data
 
@@ -31,6 +36,7 @@ class Manager(object):
                         voucher_id='_',
                         pagato=False,
                         dep_tx='_'):
+        """POST"""
         extra_serv_id = show_extra_serv(extra_serv_id)
         Reservation(data_check_in=check_in,
                     data_check_out=check_out,
@@ -46,6 +52,12 @@ class Manager(object):
                     Totale_prov=subtot
                     )
         return "OK"
+
+    @orm.db_session
+    def deactivate_reservation():
+        """PUT"""
+        pass
+
 
 
     @orm.db_session

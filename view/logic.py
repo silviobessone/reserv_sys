@@ -1,6 +1,6 @@
 from flask import Flask, render_template, make_response, request
 from flask_restful import Resource, Api
-from model.dbase import db, Manager
+from model.db_sessions import db, Manager
 from pony import orm
 
 """RESTFUL METHODS"""
