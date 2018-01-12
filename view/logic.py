@@ -52,96 +52,96 @@ class Template_test(Resource):
 
 
 class Reservations(Resource):
+    def rearrange_reserv(self, data):
+        lista_raw = list(range(0, 18))
+        lista_end = list()
+        for tupla in data:
+            lista = lista_raw
+            for i, v in enumerate(tupla):
+                if i == 0:
+                    # resv_id
+                    lista[14] = v
+                if i == 1:
+                    # Ciock-in
+                    lista[6] = v
+                if i == 2:
+                    # Ciock-out
+                    lista[7] = v
+                if i == 3:
+                    # Anticipo
+                    lista[15] = v
+                if i == 4:
+                    # Dep_tx
+                    lista[16] = v
+                if i == 5:
+                    # from guest_id
+                    guest = Manager.show_guest(self, n=v)
+                    lista[1] = guest.nome
+                    lista[2] = guest.cognome
+                    lista[3] = guest.nome_accompagnate
+                    lista[4] = guest.cognome_accompagnate
+                    lista[5] = guest.email
+                    lista[10] = guest.telefono
+                    lista[11] = guest.allergies
+                    lista[12] = guest.notes
+                if i == 6:
+                    # offerta
+                    lista[8] = Manager.show_offer(self, n=v)
+                if i == 7:
+                    # Voucher
+                    voucher = Manager.show_voucher(self, n=v)
+                    lista[13] = voucher.numero
+                if i == 8:
+                    # ROOM
+                    lista[0] = v
+                if i == 9:
+                    # Payment_method
+                    payment_method = Manager.show_payment_method(self, n=v)
+                    lista[17] = payment_method.nome
+                    lista_end.append(tuple(lista))
+        return lista_end
+
+
     def get(self):
-        header = {'Content-Type': 'text/html'}
-        data = Manager.show_reservations()
-
-        def rearrange_reserv(data):
-            lista_raw = list(range(0, 18))
-            lista_end = list()
-            for tupla in data:
-                lista = lista_raw
-                print(tupla)
-                for i, v in enumerate(tupla):
-                    if i == 0:
-                        # resv_id
-                        lista[14] = v
-                    if i == 1:
-                        # Ciock-in
-                        lista[6] = v
-                    if i == 2:
-                        # Ciock-out
-                        lista[7] = v
-                    if i == 3:
-                        # Anticipo
-                        lista[15] = v
-                    if i == 4:
-                        # Dep_tx
-                        lista[16] = v
-                    if i == 5:
-                        # from guest_id
-                        guest = Manager.show_guest(v)
-                        lista[1] = guest.nome
-                        lista[2] = guest.cognome
-                        lista[3] = guest.nome_accompagnate
-                        lista[4] = guest.cognome_accompagnate
-                        lista[5] = guest.email
-                        lista[10] = guest.telefono
-                        lista[11] = guest.allergies
-                        lista[12] = guest.notes
-                    if i == 6:
-                        # offerta
-                        lista[8] = Manager.show_offer(v)
-                    if i == 7:
-                        # Voucher
-                        voucher = Manager.show_voucher(v)
-                        lista[13] = voucher.numero
-                    if i == 8:
-                        # ROOM
-                        lista[0] = v
-                    if i == 9:
-                        # Payment_method
-                        payment_method = Manager.show_payment_method(v)
-                        lista[17] = payment_method.nome
-                        lista_end.append(tuple(lista))
-            return lista_end
-        data = rearrange_reserv(data)
-
-        table = {'table': data}
-        return make_response(render_template(
-               'reservations.html', **table), 200, header
-               )
+        if request.method == 'GET':
+            header = {'Content-Type': 'text/html'}
+            data = Manager.show_reservations()
+            # data = Reservations.rearrange_reserv(self, data=data)
+            table = {'table': data}
+            return make_response(render_template(
+                   'reservations.html', **table), 200, header
+                   )
 
     def post(self):
-        data_check_in = request.form.get('data_check_in')
-        check_out = request.form.get('data_check_out')
-        dep_val = request.form.get('deposit_value')
-        dep_tx = request.form.get('deposit_tx')
-        guest_id = request.form.get('guest_id')
-        offer_id = request.form.get('offer_id')
-        extra_serv_id = request.form.get('extra_services_id')
-        voucher_id = request.form.get('voucher_id')
-        room = request.form.get('room')
-        payment = request.form.get('payment_method')
-        pagato = request.form.get('pagato')
-        subtot = request.form.get('Totale_prov')
-        Manager.add_reservation(check_in=data_check_in,
-                                check_out=check_out,
-                                guest_id=guest_id,
-                                offer_id=offer_id,
-                                room=room,
-                                subtot=subtot,
-                                payment=payment,
-                                dep_val=dep_val,
-                                extra_serv_id=extra_serv_id,
-                                voucher_id=voucher_id,
-                                pagato=pagato,
-                                dep_tx=dep_tx
-                                )
-        header = {'Content-Type': 'text/html'}
-        data = {
-                "url": payment
-                }
-        return make_response(render_template(
-               'reservations.html', **data), 200, header
+        if request.method == 'POST':
+            data_check_in = request.form.get('data_check_in')
+            check_out = request.form.get('data_check_out')
+            dep_val = request.form.get('deposit_value')
+            dep_tx = request.form.get('deposit_tx')
+            guest_id = request.form.get('guest_id')
+            offer_id = request.form.get('offer_id')
+            extra_serv_id = request.form.get('extra_services_id')
+            voucher_id = request.form.get('voucher_id')
+            room = request.form.get('room')
+            payment = request.form.get('payment_method')
+            pagato = request.form.get('pagato')
+            subtot = request.form.get('Totale_prov')
+
+            data = Manager.add_reservation(self,
+                                    check_in=data_check_in,
+                                    check_out=check_out,
+                                    guest_id=guest_id,
+                                    offer_id=offer_id,
+                                    room=room,
+                                    subtot=subtot,
+                                    payment=payment,
+                                    dep_val=dep_val,
+                                    extra_serv_id=extra_serv_id,
+                                    voucher_id=voucher_id,
+                                    pagato=pagato,
+                                    dep_tx=dep_tx,
+                                    )
+            header = {'Content-Type': 'text/html'}
+            return make_response(render_template(
+                   'reservations.html', **data), 200, header
                 )

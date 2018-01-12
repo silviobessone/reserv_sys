@@ -5,17 +5,17 @@ from model.dbase import (db, Guest, Offer, Payment_method, Room,
 class Manager(object):
     # FROM PAYMENT ENDPOINT
     @orm.db_session
-    def show_payment_method(n):
+    def show_payment_method(self, n):
         payment_m = Payment_method[n]
         return payment_m
 
 
     @orm.db_session
-    def add_payment_method(name):
+    def add_payment_method(self, name):
         Payment_method(nome=name)
 
 
-    # FROM RSERVATIONS ENDPOINT
+    # FROM RESERVATIONS ENDPOINT
     @orm.db_session
     def show_reservations():
         """GET"""
@@ -24,7 +24,7 @@ class Manager(object):
 
 
     @orm.db_session
-    def add_reservation(check_in,
+    def add_reservation(self, check_in,
                         check_out,
                         guest_id,
                         offer_id,
@@ -37,14 +37,14 @@ class Manager(object):
                         pagato=False,
                         dep_tx='_'):
         """POST"""
-        extra_serv_id = show_extra_serv(extra_serv_id)
+        extra_s = Manager.show_extra_serv(self, n=extra_serv_id)
         Reservation(data_check_in=check_in,
                     data_check_out=check_out,
                     deposit_value=dep_val,
                     deposit_tx=dep_tx,
                     guest_id=guest_id,
                     offer_id=offer_id,
-                    extra_services_id=extra_serv_id,
+                    extra_services_id=extra_s,
                     voucher_id=voucher_id,
                     room=room,
                     payment_method=payment,
@@ -53,15 +53,15 @@ class Manager(object):
                     )
         return "OK"
 
+
     @orm.db_session
-    def deactivate_reservation():
+    def deactivate_reservation(self):
         """PUT"""
         pass
 
 
-
     @orm.db_session
-    def add_guest(name,
+    def add_guest(self, name,
                   surname,
                   email,
                   phone,
@@ -85,24 +85,24 @@ class Manager(object):
 
 
     @orm.db_session
-    def show_extra_serv(n):
+    def show_extra_serv(self, n):
         extra_s = Extra_services[n]
         return extra_s
 
 
     @orm.db_session
-    def show_guest(n):
+    def show_guest(self, n):
         guest = Guest[n]
         return guest
 
 
     @orm.db_session
-    def show_offer(n):
+    def show_offer(self, n):
         offer = Offer[n]
         return offer
 
 
     @orm.db_session
-    def show_voucher(n):
+    def show_voucher(self, n):
         voucher = Voucher[n]
         return voucher
