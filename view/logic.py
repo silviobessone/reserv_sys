@@ -8,7 +8,7 @@ from pony import orm
 
 class Payment(Resource):
     def get(self):
-        ppp = Manager.show_payment_method(1)
+        ppp = Manager.show_payment_method()
         header = {'Content-Type': 'text/html'}
         data = {
             "my_string": ppp.nome,
@@ -98,7 +98,9 @@ class Reservations(Resource):
                     # Payment_method
                     payment_method = Manager.show_payment_method(self, n=v)
                     lista[17] = payment_method.nome
+                    print(lista)
                     lista_end.append(tuple(lista))
+        print(lista)
         return lista_end
 
 
@@ -126,7 +128,6 @@ class Reservations(Resource):
             payment = request.form.get('payment_method')
             pagato = request.form.get('pagato')
             subtot = request.form.get('Totale_prov')
-
             data = Manager.add_reservation(self,
                                     check_in=data_check_in,
                                     check_out=check_out,
@@ -145,3 +146,28 @@ class Reservations(Resource):
             return make_response(render_template(
                    'reservations.html', **data), 200, header
                 )
+
+class Guest(Resource):
+    def get(self):
+        header = {'Content-Type': 'text/html'}
+        req = request.form.get('id')
+        import pdb; pdb.set_trace()
+        if req is None:
+            data = Manager.show_guest("False")
+        else:
+            data = Manager.show_guest(req)
+        table = {"table" : data}
+        return make_response(render_template(
+               'guest.html', **table), 200, header
+                )
+
+    def post(self):
+        req = request.form.get('nome')
+        Manager.add_payment_method(req)
+        header = {'Content-Type': 'text/html'}
+        data = {
+            "my_string": req,
+            "my_list": [7, 4, 8, 6, 1, 5, 3, 0, 2, 9]
+            }
+        return make_response(render_template(
+               'template.html', **data), 201, header)
