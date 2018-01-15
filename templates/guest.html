@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+
+    <!-- Own Styles -->
+    <link rel="stylesheet" href="../styles/styles1.css">
+
+    <title>Guest</title>
+  </head>
+  <body>
+    <div class="container.fluid">
+      <div class="fixed">
+        <form class="form-inline">
+          <div class="form-group">
+            <!-- <label for="nome">Nome:</label> -->
+            <input type="nome" class="form-control" placeholder="Nome">
+            <!-- <label for="cognome">Cognome:</label> -->
+            <input type="cognome" class="form-control" placeholder="Cognome">
+            <!-- <label for="nome2">Nome Accompagnatore:</label> -->
+            <input type="nome2" class="form-control" placeholder="Nome Accompagnatore">
+            <!-- <label for="cognome2">Cognome Accompagnatore:</label> -->
+            <input type="cognome2" class="form-control" placeholder="Cognome Accompagnatore">
+            <!-- <label for="email">Email:</label> -->
+            <input type="email" class="form-control" placeholder="e-mail">
+            <!-- <label for="pwd">Telefono:</label> -->
+            <input type="telefono" class="form-control" placeholder="Telefono">
+            <!-- <label for="pwd">Telefono (opt):</label> -->
+            <input type="telefono2" class="form-control" placeholder="Telefono 2">
+            <!-- <label for="pwd">Allergie:</label> -->
+            <input type="allergie" class="form-control" placeholder="Allergie">
+            <!-- <label for="pwd">Altro</label> -->
+            <input type="altro" class="form-control" placeholder="Altra Informazione">
+            <br>
+            <button type="submit" class="btn btn-success" method="POST">Registra</button>
+          </div>
+        </form>
+      </div>
+        <h2 class="text-center">Guest</h2>
+        <table class="table table-condensed table-hover">
+          <thead>
+            <tr>
+              <th>NOME</th>
+              <th>COGNOME</th>
+              <th>NOME ACC.</th>
+              <th>COGNOME ACC.</th>
+              <th>EMAIL</th>
+              <th>TELF.</th>
+              <th>ALLERGIE</th>
+              <th>ALTRO</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in table %}
+              <tr>
+              {% set rowloop = loop %}
+              {% for cell in row %}
+                <td id="cell-{{ rowloop.index }}-{{ loop.index }}">{{ cell }}</td>
+              {% endfor %}
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+    </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
+  </body>
+</html>
