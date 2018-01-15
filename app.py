@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_restful import Api
 from model.dbase import db
-from view.logic import Home, Template_test, Payment, Reservations
+from view.logic import Home, Template_test, Payment, Reservations, Guest
 from pony import orm
 
 
@@ -21,6 +21,7 @@ api.add_resource(Home, "/")
 api.add_resource(Template_test, "/test")
 api.add_resource(Payment, "/payment")
 api.add_resource(Reservations, "/reservations")
+api.add_resource(Guest, "/guest")
 
 
 if '__name__' == '__main__':
