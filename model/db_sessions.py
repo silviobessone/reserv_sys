@@ -5,13 +5,13 @@ from model.dbase import (db, Guest, Offer, Payment_method, Room,
 class Manager(object):
     # FROM PAYMENT ENDPOINT
     @orm.db_session
-    def show_payment_method(self, n):
+    def show_payment_method():
         payment_m = Payment_method[n]
         return payment_m
 
 
     @orm.db_session
-    def add_payment_method(self, name):
+    def add_payment_method(name):
         Payment_method(nome=name)
 
 
@@ -24,7 +24,7 @@ class Manager(object):
 
 
     @orm.db_session
-    def add_reservation(self, check_in,
+    def add_reservation(check_in,
                         check_out,
                         guest_id,
                         offer_id,
@@ -37,7 +37,7 @@ class Manager(object):
                         pagato=False,
                         dep_tx='_'):
         """POST"""
-        extra_s = Manager.show_extra_serv(self, n=extra_serv_id)
+        extra_s = Manager.show_extra_serv(n=extra_serv_id)
         Reservation(data_check_in=check_in,
                     data_check_out=check_out,
                     deposit_value=dep_val,
@@ -85,24 +85,29 @@ class Manager(object):
 
 
     @orm.db_session
-    def show_extra_serv(self, n):
+    def show_extra_serv(n):
         extra_s = Extra_services[n]
         return extra_s
 
 
     @orm.db_session
-    def show_guest(self, n):
-        guest = Guest[n]
-        return guest
+    def show_guest(n):
+        import pdb; pdb.set_trace()
+        if n is "False":
+            guest = db.select("SELECT * FROM Guest")
+            return guest
+        else:
+            guest = db.select("SELECT * FROM Guest WHERE id == {}".format(n))
+            return guest
 
 
     @orm.db_session
-    def show_offer(self, n):
+    def show_offer(n):
         offer = Offer[n]
         return offer
 
 
     @orm.db_session
-    def show_voucher(self, n):
+    def show_voucher(n):
         voucher = Voucher[n]
         return voucher
