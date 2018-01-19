@@ -5,13 +5,13 @@ from model.dbase import (db, Guest, Offer, Payment_method, Room,
 class Manager(object):
     # FROM PAYMENT ENDPOINT
     @orm.db_session
-    def show_payment_method():
+    def show_payment_method(self):
         payment_m = Payment_method[n]
         return payment_m
 
 
     @orm.db_session
-    def add_payment_method(name):
+    def add_payment_method(self, name):
         Payment_method(nome=name)
 
 
@@ -91,7 +91,7 @@ class Manager(object):
 
 
     @orm.db_session
-    def show_guest(n):
+    def show_guest(self, n):
         import pdb; pdb.set_trace()
         if n is "False":
             guest = db.select("SELECT * FROM Guest")
@@ -102,12 +102,12 @@ class Manager(object):
 
 
     @orm.db_session
-    def show_offer(n):
+    def show_offer(self, n):
         offer = Offer[n]
         return offer
 
 
     @orm.db_session
-    def show_voucher(n):
+    def show_voucher(self, n):
         voucher = Voucher[n]
         return voucher
