@@ -92,7 +92,6 @@ class Manager(object):
 
     @orm.db_session
     def show_guest(self, n):
-        import pdb; pdb.set_trace()
         if n is "False":
             guest = db.select("SELECT * FROM Guest")
             return guest
